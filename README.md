@@ -1,67 +1,98 @@
-# Local File Sharing Server
+# FileFlow - Local Network File Sharing
 
-[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/)
-[![Flask](https://img.shields.io/badge/Flask-2.x-brightgreen.svg)](https://flask.palletsprojects.com/)
+![FileFlow Banner](resources/image.png)
 
-![Application Screenshot](files/image.png)
+FileFlow is a lightning-fast file sharing solution for local networks. Built with modern web technologies, it enables seamless file transfers between devices without the need for external services or complicated setup.
 
-A lightweight and professional file sharing server built with Python and Flask. Easily upload, download, and manage files over your local network with an intuitive interface and real-time updates.
+## Why FileFlow?
 
-## Features
+- 🚀 **Instant Setup** - Running in seconds, no configuration needed
+- 🔒 **Local Network Only** - Your files never leave your network
+- 💫 **Modern Interface** - Clean, responsive design that just works
+- 🎯 **Simple Yet Powerful** - Drag & drop, progress tracking, and more
 
-- **Modern UI:** Sleek design using Tailwind CSS with a professional color scheme.
-- **File Upload:** Drag & drop support and progress indication for a seamless experience.
-- **File Download:** Easy one-click downloads from any device on your network.
-- **File Deletion:** Remove unwanted files quickly.
-- **Automatic Cleanup:** Shared folder is cleared automatically when the server exits.
-- **Real-Time Updates:** The page auto-refreshes every 30 seconds when idle.
+## Quick Start
 
-## Technologies Used
+```bash
+git clone https://github.com/yourusername/fileflow.git
+cd fileflow
+pip install -r requirements.txt
+python app.py
+```
 
-- **Python:** Core programming language powering the server.
-- **Flask:** A micro web framework that powers the backend.
-- **Werkzeug:** Ensures secure file handling using [`secure_filename`](https://werkzeug.palletsprojects.com/en/2.0.x/utils/#werkzeug.utils.secure_filename).
-- **Tailwind CSS:** Delivers a modern, responsive, and customizable UI.
-- **Humanize:** Converts byte sizes and timestamps into human-readable strings.
-- **JavaScript (Vanilla):** Manages dynamic file uploads complete with progress tracking.
+Then open `http://localhost:5000` in your browser. That's it!
 
-## Installation
+## Features in Detail
 
-1. **Clone the repository:**
-   ```sh
-   git clone https://github.com/yourusername/local-file-sharing-server.git
-   ```
-2. **Navigate into the project directory:**
-   ```sh
-   cd local-file-sharing-server
-   ```
-3. **Install the required packages:**
-   ```sh
-   pip install -r requirements.txt
-   ```
-4. **Run the server:**
-   ```sh
-   python app.py
-   ```
-5. **Access the application:**
-   Open your web browser and go to `http://localhost:5000` to start using the file sharing server.
+### Smart File Management
+- Drag & drop multiple files
+- Real-time upload progress
+- Automatic file cleanup on server shutdown
+- File type filtering and size limits
 
-## Usage
+### Network Accessibility
+- Access from any device on your network
+- No internet connection required
+- Configurable port and host settings
+- Auto-discovery of server IP (coming soon)
 
-- **Uploading Files:** Simply drag and drop files into the designated area on the web page, or click to browse and select files.
-- **Downloading Files:** Click on the file name or download button next to the file you wish to download.
-- **Deleting Files:** Click the delete button next to the file you want to remove from the server.
+### Security First
+- Local network isolation
+- File sanitization
+- Configurable access controls
+- Session management
+
+## Tech Stack
+
+- Backend: Python + Flask
+- Frontend: Vanilla JS + Tailwind CSS
+- File Processing: Werkzeug
+- Development: Poetry for dependency management
+
+## Development Setup
+
+1. Install Python 3.8 or newer
+2. Clone the repository
+3. Set up your environment:
+
+```bash
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+4. Start the development server:
+
+```bash
+python app.py
+```
+
+## Configuration
+
+Create a `.env` file in the project root:
+
+```env
+PORT=5000
+HOST=0.0.0.0
+MAX_FILE_SIZE=500MB
+ALLOWED_EXTENSIONS=pdf,jpg,png,zip
+```
 
 ## Contributing
 
-Contributions are welcome! If you have suggestions or improvements, please submit a pull request or open an issue.
+We welcome contributions! Please check our [Contributing Guide](CONTRIBUTING.md) for details on:
+
+- Code style and standards
+- Development workflow
+- Pull request process
+- Bug reporting
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Released under MIT License. See [LICENSE](LICENSE) for details.
 
-## Acknowledgements
+---
 
-- Inspired by the need for a simple and efficient local file sharing solution.
-- Thanks to the contributors and open-source community for their valuable tools and libraries.
+<div align="center">
+Made with ❤️ by [Your Name]
+</div>
