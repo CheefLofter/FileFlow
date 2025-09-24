@@ -67,25 +67,10 @@ pip install -r requirements.txt
 python app.py
 ```
 
-## Configuration
-
-Create a `.env` file in the project root:
-
-```env
-PORT=5000
-HOST=0.0.0.0
-MAX_FILE_SIZE=500MB
-ALLOWED_EXTENSIONS=pdf,jpg,png,zip
-```
 
 ## Contributing
 
-We welcome contributions! Please check our [Contributing Guide](CONTRIBUTING.md) for details on:
-
-- Code style and standards
-- Development workflow
-- Pull request process
-- Bug reporting
+We welcome contributions! 
 
 ## License
 
@@ -94,5 +79,5 @@ Released under MIT License. See [LICENSE](LICENSE) for details.
 ---
 
 <div align="center">
-Made with ❤️ by [Your Name]
+Made with ❤️ by Cheef
 </div>
