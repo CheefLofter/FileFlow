@@ -2,14 +2,14 @@
 
 ![FileFlow Banner](resources/image.png)
 
-FileFlow is a lightning-fast file sharing solution for local networks. Built with modern web technologies, it enables seamless file transfers between devices without the need for external services or complicated setup.
+FileFlow is a lightning-fast file sharing solution for local networks. It is similar to Google quick share or apple airdrop but works on any device with a web browser and any dvide on same network can access the shared files.
 
-## Why FileFlow?
+## FileFlow features
 
-- 🚀 **Instant Setup** - Running in seconds, no configuration needed
-- 🔒 **Local Network Only** - Your files never leave your network
-- 💫 **Modern Interface** - Clean, responsive design that just works
-- 🎯 **Simple Yet Powerful** - Drag & drop, progress tracking, and more
+- 🚀  Running in seconds, no configuration needed
+- 🔒  Your files never leave your network
+- 💫  Clean, responsive design that just works
+- 🎯  Simple Drag & drop, progress tracking, which does nothing more than needed
 
 ## Quick Start
 
