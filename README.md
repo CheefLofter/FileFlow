@@ -1,23 +1,30 @@
 # Local File Sharing Server
 
-A lightweight file sharing server built with Python and Flask. This application allows you to easily upload, download, and manage files over your local network.
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/)
+[![Flask](https://img.shields.io/badge/Flask-2.x-brightgreen.svg)](https://flask.palletsprojects.com/)
+
+![Application Screenshot](files/image.png)
+
+A lightweight and professional file sharing server built with Python and Flask. Easily upload, download, and manage files over your local network with an intuitive interface and real-time updates.
 
 ## Features
 
-- **File Upload:** Drag & drop files to instantly upload them.
-- **File Download:** Access and download shared files from any device on your network.
-- **File Deletion:** Remove files with a simple click.
-- **Automatic Cleanup:** The shared folder is automatically cleared when the server exits.
+- **Modern UI:** Sleek design using Tailwind CSS with a professional color scheme.
+- **File Upload:** Drag & drop support and progress indication for a seamless experience.
+- **File Download:** Easy one-click downloads from any device on your network.
+- **File Deletion:** Remove unwanted files quickly.
+- **Automatic Cleanup:** Shared folder is cleared automatically when the server exits.
 - **Real-Time Updates:** The page auto-refreshes every 30 seconds when idle.
 
 ## Technologies Used
 
-- **Python:** The core programming language.
-- **Flask:** A micro web framework that powers the server.
-- **Werkzeug:** For secure file handling with the `secure_filename` function.
-- **Tailwind CSS:** Provides sleek and responsive UI styles in the frontend.
-- **Humanize:** Transforms file sizes and timestamps into human-readable formats.
-- **JavaScript (Vanilla):** Handles file uploads with progress indication and drag & drop support.
+- **Python:** Core programming language powering the server.
+- **Flask:** A micro web framework that powers the backend.
+- **Werkzeug:** Ensures secure file handling using [`secure_filename`](https://werkzeug.palletsprojects.com/en/2.0.x/utils/#werkzeug.utils.secure_filename).
+- **Tailwind CSS:** Delivers a modern, responsive, and customizable UI.
+- **Humanize:** Converts byte sizes and timestamps into human-readable strings.
+- **JavaScript (Vanilla):** Manages dynamic file uploads complete with progress tracking.
 
 ## Installation
 
