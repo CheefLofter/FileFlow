@@ -14,13 +14,13 @@ FileFlow is a lightning-fast file sharing solution for local networks. Built wit
 ## Quick Start
 
 ```bash
-git clone https://github.com/yourusername/fileflow.git
-cd fileflow
+git clone https://github.com/RavneetGrewal2911/FileFlow.git
+cd FileFlow
 pip install -r requirements.txt
 python app.py
 ```
 
-Then open `http://localhost:5000` in your browser. That's it!
+Then open `http://localhost:8080` in your browser. That's it!
 
 ## Features in Detail
 
