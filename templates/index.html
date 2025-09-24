@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Local File Sharing</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Share Tech Mono', monospace;
+    }
+  </style>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'background': '#0a0a0a',
+            'foreground': '#d4d4d4',
+            'primary': '#4a90e2',
+            'secondary': '#9013fe',
+            'accent': '#f5a623',
+            'success': '#4ade80',
+            'danger': '#f43f5e'
+          },
+          fontFamily: {
+            'sans': ['Arial', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-background text-foreground font-mono">
+  <div class="min-h-screen">
+    <header class="py-4 border-b border-primary/50">
+      <div class="container mx-auto flex justify-between items-center px-4">
+        <h1 class="text-2xl font-bold text-primary">Local File Sharing</h1>
+      </div>
+    </header>
+    <main class="container mx-auto px-4 py-8">
+      <!-- Flash messages -->
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="mb-6">
+            {% for category, message in messages %}
+              <div class="mb-4 p-4 border {% if category=='success' %}border-success/50 bg-success/10 text-success{% else %}border-danger/50 bg-danger/10 text-danger{% endif %}">
+                {{ message }}
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+      
+      <!-- File Upload Section -->
+      <section class="mb-8 p-6 bg-black/30 border border-primary/30">
+        <h2 class="text-xl font-semibold text-primary mb-4">Upload Files</h2>
+        <div class="upload-zone border-2 border-dashed border-primary/50 p-6 text-center cursor-pointer bg-black/20 hover:bg-black/40 transition" id="upload-zone">
+          <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" id="file-input" multiple class="hidden" />
+            <div id="drop-text">
+              <p class="text-lg text-foreground/80">
+                Drag files here or <button type="button" class="underline text-primary" onclick="document.getElementById('file-input').click()">Browse</button>
+              </p>
+              <p class="text-sm text-foreground/50">Files will be saved to {{ upload_dir }}</p>
+            </div>
+          </form>
+          <div id="upload-progress" class="mt-4" style="display: none;">
+            <p id="progress-text" class="text-foreground/80">Uploading...</p>
+            <div class="progress-bar bg-primary/20 h-2 mt-2">
+              <div class="progress-bar-fill bg-primary h-2" id="progress-bar-fill" style="width: 0%;"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Files List Section -->
+      <section class="p-6 bg-black/30 border border-secondary/30">
+        <h2 class="text-xl font-semibold text-secondary mb-4">Shared Files</h2>
+        <ul class="divide-y divide-secondary/30">
+          {% for file in files %}
+          <li class="flex flex-col sm:flex-row items-start sm:items-center justify-between py-4">
+            <div class="mb-2 sm:mb-0">
+              <p class="text-lg font-medium text-foreground">{{ file }}</p>
+              <p class="text-sm text-foreground/60">{{ files_info[file].size_str }} • Last modified: {{ files_info[file].modified }}</p>
+            </div>
+            <div class="flex space-x-2 w-full sm:w-auto">
+              <a href="/download/{{ file }}" class="flex-grow sm:flex-grow-0 text-center px-4 py-2 bg-primary text-black font-bold hover:bg-white transition">Download</a>
+              <form action="/delete/{{ file }}" method="post" onsubmit="return confirm('Are you sure you want to delete this file?')" class="inline-flex-grow sm:flex-grow-0">
+                <button type="submit" class="w-full px-4 py-2 bg-secondary text-white font-bold hover:bg-white hover:text-black transition">Delete</button>
+              </form>
+            </div>
+          </li>
+          {% else %}
+          <li class="py-4 text-center text-foreground/60"><em>No files shared yet</em></li>
+          {% endfor %}
+        </ul>
+      </section>
+    </main>
+    <footer class="py-4 mt-8 border-t border-gray-800 text-center text-foreground/50">
+      © 2025 Local File Sharing
+    </footer>
+  </div>
+  
+  <script>
+    // File upload handling with progress
+    const uploadZone = document.getElementById('upload-zone');
+    const uploadForm = document.getElementById('upload-form');
+    const fileInput = document.getElementById('file-input');
+    const progressBar = document.getElementById('progress-bar-fill');
+    const progressText = document.getElementById('progress-text');
+    const uploadProgress = document.getElementById('upload-progress');
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+      uploadZone.addEventListener(eventName, e => {
+        e.preventDefault();
+        uploadZone.classList.add('dragover');
+      });
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      uploadZone.addEventListener(eventName, e => {
+        e.preventDefault();
+        uploadZone.classList.remove('dragover');
+      });
+    });
+
+    uploadZone.addEventListener('drop', e => {
+      e.preventDefault();
+      const files = e.dataTransfer.files;
+      if (files.length) {
+        fileInput.files = files;
+        uploadFiles(files);
+      }
+    });
+
+    fileInput.addEventListener('change', e => {
+      if (fileInput.files.length) {
+        uploadFiles(fileInput.files);
+      }
+    });
+
+    function uploadFiles(files) {
+      const formData = new FormData();
+      for (let file of files) {
+        formData.append('file', file);
+      }
+
+      uploadProgress.style.display = 'block';
+      
+      // Use XMLHttpRequest to track upload progress
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', '/upload');
+
+      xhr.upload.onprogress = function(event) {
+        if (event.lengthComputable) {
+          const percentComplete = (event.loaded / event.total) * 100;
+          progressBar.style.width = percentComplete + '%';
+          progressText.textContent = `Uploading: ${Math.round(percentComplete)}%`;
+        }
+      };
+
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          window.location.reload();
+        } else {
+          progressText.textContent = 'Upload failed: ' + xhr.statusText;
+          progressText.style.color = '#dc2626';
+        }
+      };
+
+      xhr.onerror = function() {
+        progressText.textContent = 'Upload failed: Network error';
+        progressText.style.color = '#dc2626';
+      };
+
+      xhr.send(formData);
+    }
+
+    // Automatically refresh the page every 30 seconds if no upload is in progress
+    setInterval(() => {
+      if (uploadProgress.style.display === 'none') {
+        window.location.reload();
+      }
+    }, 30000);
+  </script>
+</body>
+</html>
