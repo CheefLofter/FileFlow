@@ -1,31 +1,74 @@
-# Python
+
+# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
-*.pyo
-*.pyd
-*.pyc
+*$py.class
 
-# Virtual environments
-.venv/
-env/
-venv/
+# C extensions
+*.so
 
 # Distribution / packaging
+.Python
 build/
+develop-eggs/
 dist/
-*.egg-info/
+downloads/
+eggs/
 .eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
 *.egg
+pip-wheel-metadata/
+share/python-wheels/
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+.pytest_cache/
+htmlcov/
+
+# Translations
+*.mo
+
+# Flask instance folder
+instance/
+
+# Flask environment variables
+.env
+.flaskenv
+
+# Virtualenvs
+.venv/
+venv/
+ENV/
+env/
+.venv/
 
 # IDEs and editors
-.vscode/
 .idea/
-*.swp
-*.swo
+.vscode/
+*.sublime-project
+*.sublime-workspace
 
-# OS files
+# macOS
 .DS_Store
-Thumbs.db
 
-# Local files
-/files/
+# Database
+*.sqlite3
+
+# Logs
+*.log
+
+# Python egg
+*.egg-info/

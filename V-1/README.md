@@ -14,7 +14,7 @@ FileFlow is a lightning-fast file sharing solution for local networks. It is sim
 ## Quick Start
 
 ```bash
-git clone https://github.com/RavneetGrewal2911/FileFlow.git
+git clone https://github.com/Cheeflofter/V-1/FileFlow.git
 cd FileFlow
 pip install -r requirements.txt
 python app.py
