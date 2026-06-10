@@ -39,4 +39,3 @@ if "__name__" == "__main__":
         raw = f.read()
 
     blob, key_fragment = encrypt_zip(raw)
-# POST blob to Flask, build URL: https://your-tunnel.trycloudflare.com/r#key=<key_fragment>
