@@ -24,7 +24,7 @@ SHARED_FOLDER = os.path.join(BASE_DIR, CONFIG['SHARED_DIR'])
 # Ensure directory exists
 os.makedirs(SHARED_FOLDER, exist_ok=True)
 
-ALLOWED_EXTENSIONS = CONFIG['ALLOWED_EXTENSIONS']  # None means allow all; adjust if you want to restrict
+ALLOWED_EXTENSIONS = CONFIG['ALLOWED_EXTENSIONS'] st if you want  # None means allow all; adjuto restrict
 
 def allowed_file(filename):
     if ALLOWED_EXTENSIONS is None:

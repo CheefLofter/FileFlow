@@ -4,7 +4,8 @@
 
 <div align="center">
 
-# FILE FLOW <br> A Zero Knowledge file sharing tool
+# FILE FLOW 
+## A Zero Knowledge file sharing tool
 
 ![logo](Assets/logo.jpg)
 
