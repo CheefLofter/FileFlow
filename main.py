@@ -3,6 +3,7 @@ from flask import Flask, render_template
 from flask import request
 
 from src.encryption import encrypt_zip
+#import base64
 
 
 
@@ -23,8 +24,9 @@ def upload_file():
     raw = file.read()
 
     blob, key_fragment = encrypt_zip(raw)
-    print("Key Fragment:", blob)
-    return "File uploaded and encrypted successfully!"
+    #print("Key Fragment:", key_fragment)
+    #blob_b64 = base64.urlsafe_b64encode(blob).decode()
+    return key_fragment, 200
 
 
    
