@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <button onclick="decrypt()">Download File</button>
+
+  <script>
+    const blob_b64 = "{{ blob_b64 }}";  // injected by flask
+
+    async function decrypt() {
+      // Get key from URL fragment — never sent to server
+      const key_fragment = window.location.hash.substring(1).split("key=")[1];
+
+      // Decode base64 blob to bytes
+      const encrypted = Uint8Array.from(atob(blob_b64), c => c.charCodeAt(0));
+
+      // --- your decryption logic here using key_fragment ---
+      const decrypted = await your_decrypt_function(encrypted, key_fragment);
+
+      // Trigger download
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(new Blob([decrypted]));
+      a.download = "{{ filename }}";  // injected by flask
+      a.click();
+    }
+  </script>
+</body>
+</html>
