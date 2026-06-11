@@ -4,22 +4,45 @@
   <button onclick="decrypt()">Download File</button>
 
   <script>
-    const blob_b64 = "{{ blob_b64 }}";  // injected by flask
+    const blob_b64 = "{{ blob_b64 }}";
+    const filename  = "{{ filename }}";
 
     async function decrypt() {
-      // Get key from URL fragment — never sent to server
-      const key_fragment = window.location.hash.substring(1).split("key=")[1];
+      // Get key from URL fragment
+      const key_b64 = window.location.hash.substring(1).split("key=")[1];
 
-      // Decode base64 blob to bytes
-      const encrypted = Uint8Array.from(atob(blob_b64), c => c.charCodeAt(0));
+      // Decode base64url key → raw bytes
+      const key_bytes = Uint8Array.from(
+        atob(key_b64.replace(/-/g, '+').replace(/_/g, '/')),
+        c => c.charCodeAt(0)
+      );
 
-      // --- your decryption logic here using key_fragment ---
-      const decrypted = await your_decrypt_function(encrypted, key_fragment);
+      // Import key for AES-GCM
+      const key = await crypto.subtle.importKey(
+        "raw", key_bytes,
+        { name: "AES-GCM" },
+        false,
+        ["decrypt"]
+      );
+
+      // Decode blob
+      const blob_bytes = Uint8Array.from(atob(blob_b64), c => c.charCodeAt(0));
+
+      // Split IV (first 12 bytes) + ciphertext (rest) — mirrors: blob = iv + ciphertext
+      const iv         = blob_bytes.slice(0, 12);
+      const ciphertext = blob_bytes.slice(12);
+
+      // Decrypt
+      const decrypted = await crypto.subtle.decrypt(
+        { name: "AES-GCM", iv: iv },
+        key,
+        ciphertext
+      );
 
       // Trigger download
       const a = document.createElement("a");
       a.href = URL.createObjectURL(new Blob([decrypted]));
-      a.download = "{{ filename }}";  // injected by flask
+      a.download = filename;
       a.click();
     }
   </script>

@@ -39,13 +39,13 @@ def upload_file():
 
 @app.route("/download")
 def download_file():
-    blob = storage["blob"]
+    #blob = storage["blob"]
     filename = storage["filename"]
     if not blob:
         return "No file available", 404
 
     blob_b64 = base64.b64encode(blob).decode()
-    return render_template("receiver.html", blob_b64=blob_b64,filename=filename)
+    return render_template("receiver.html", blob_b64=blob_b64,filename=storage["filename"])
 
 
 
@@ -53,3 +53,6 @@ def download_file():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+
+    #NameError: name 'blob' is not defined
