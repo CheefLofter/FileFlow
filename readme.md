@@ -11,3 +11,13 @@
 
 </div>
 
+<div align="center">
+
+
+File-Flow is a zero knowledge file sharing tool. it hides sender using a cloud flare tunnel
+
+
+
+![Block Diagram](Assets/block-diagram.png)
+
+</div>
