@@ -33,7 +33,7 @@ def encrypt_zip(file_bytes: bytes) -> tuple[bytes, str]:
     return blob, key_b64
 
 
-if "__name__" == "__main__":
+if __name__ == "__main__":
 
     with open("file.zip", "rb") as f:
         raw = f.read()
