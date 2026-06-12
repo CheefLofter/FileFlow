@@ -1,36 +1,66 @@
-*FileFlow V2 is under development and will use encryptions and tunnels to send files securely across the globe . you can see V1 [here](/V-1/)*
+# FileFlow
 
-
-
-<div align="center">
-
-# FILE FLOW 
-## A Zero Knowledge file sharing tool
+A zero-knowledge file sharing tool. Encrypts files client-side, tunnels them through Cloudflare, and decrypts them in the recipient's browser — the server never sees the key or the plaintext.
 
 ![logo](Assets/logo.jpg)
 
-</div>
+## How it works
 
-<div align="center">
+![block diagram](Assets/block-diagram.png)
 
-
-File-Flow is a zero knowledge file sharing tool. it hides sender using a cloud flare tunnel that masks the sender ip and uses a clowdflare server ip. it also encrypts the files using AES-256-GCM encryption which is considered gold standard for genral purpose encryptions. 
-
-it is written in python version 3.13.5 and will run a flask server to accept user input through a web ui on localhost:3000 it will then encrypt the file usinga onettime 32bit key that is generated during encryption and will not be sent to the server. 
-
-it automaticall opens a cloudflare tunnel and exposes localhost to it and also gives the reciver url back to be sent to reciver.
-
-the private key is embedded into the url as a fragment which is encodded to base64 (url_safe) to make the process automatic fro reciver. the key is never sent to the server and is kept by the browser for decription.
-
-the decryption is done on client side in the browser by extracting key from fragment and using Javascript to decrypt the files before downloading
+| Step | What happens |
+|---|---|
+| 1. Upload | Open the local web UI and select a file to share |
+| 2. Encrypt | File is encrypted with AES-256-GCM using a one-time generated key |
+| 3. Tunnel | A Cloudflare Tunnel spins up, exposing the server via a `trycloudflare.com` URL (printed in the terminal) and masking your real IP |
+| 4. Key embed | The key is base64-encoded into the URL fragment (`#key=...`) — never sent to or stored on the server |
+| 5. Share | Send the generated `trycloudflare.com` link to the recipient |
+| 6. Decrypt | Recipient's browser extracts the key from the fragment and decrypts the file client-side before download |
 
 
+## Usage
 
-![Block Diagram](Assets/block-diagram.png)
+```bash
+# clone the repo
+git clone https://github.com/CheefLofter/FileFlow.git
+cd FileFlow
+# make venv and install requirements
+python3 -m venv .venv
 
-</div>
+#linux/mac 
+source .venv/bin/activate
 
-## working
+#windows
+.venv/Scripts/activate
 
-fileflow uses a flask server on local host and exposes the port 5000 to the internet using clowdflare tunnel
+pip install -r requirements.txt
+python main.py
+```
+
+The tunnel URL will be printed in the terminal — open it in your browser, upload a file, and share the link it generates.
+
+
+## Stack
+
+- Python 3.13 / Flask
+- AES-256-GCM (PyCryptodome)
+- Cloudflare Tunnel (flask-cloudflared)
+- Vanilla JS for client-side decryption
+
+
+## Project structure
+
+```
+FileFlow/
+├── Assets/        # logo, diagrams
+├── src/           # encryption logic
+├── templates/     # sender/receiver UI
+├── test-files/    # sample files
+├── tests/         # unit tests
+└── main.py
+```
+
+## Why
+
+Built to get hands-on with zero-knowledge architecture, AES-GCM, and key handling without ever exposing the key to the server or any intermediary.
 
