@@ -4,7 +4,7 @@ from src.encryption import encrypt_zip
 import base64
 from flask_cloudflared import run_with_cloudflared, get_cloudflared_url
 
-storage = {"blob": None, "filename": None}
+storage = {"blob": None, "filename": None, "key": None}
 
 app = Flask(__name__)
 
@@ -29,6 +29,7 @@ def upload_file():
 
     storage["blob"] = blob
     storage["filename"] = file.filename
+    storage["key"] = key_fragment
 
     #print("Key Fragment:", key_fragment)
     #blob_b64 = base64.urlsafe_b64encode(blob).decode()
@@ -39,14 +40,15 @@ def upload_file():
 
 @app.route("/download")
 def download_file():
-    #blob = storage["blob"]
+    blob = storage["blob"]
     filename = storage["filename"]
     if not blob:
         return "No file available", 404
 
     blob_b64 = base64.b64encode(blob).decode()
+    #print(storage["key"])
     return render_template("receiver.html", blob_b64=blob_b64,filename=storage["filename"])
-
+    
 
 
    

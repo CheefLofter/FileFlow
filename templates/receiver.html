@@ -10,12 +10,13 @@
     async function decrypt() {
       // Get key from URL fragment
       const key_b64 = window.location.hash.substring(1).split("key=")[1];
-
-      // Decode base64url key → raw bytes
+      
+     // Decode base64url key → raw bytes
       const key_bytes = Uint8Array.from(
         atob(key_b64.replace(/-/g, '+').replace(/_/g, '/')),
         c => c.charCodeAt(0)
       );
+     
 
       // Import key for AES-GCM
       const key = await crypto.subtle.importKey(
