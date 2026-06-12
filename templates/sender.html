@@ -3,13 +3,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Upload File</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: #1a0f2e;
+            color: #f5f0e8;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .accent-line {
+            position: absolute;
+            width: 100px;
+            height: 3px;
+            background: #c91818;
+            top: -40px;
+            left: 0;
+        }
+
+        .content {
+            background: #2a1d47;
+            border-left: 8px solid #c91818;
+            padding: 48px 40px;
+            box-shadow: 8px 12px 32px rgba(201, 24, 74, 0.2);
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 400;
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+            color: #f5f0e8;
+        }
+
+        .subtitle {
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #9d7bb4;
+            margin-bottom: 32px;
+        }
+
+        .description {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #d4c5dd;
+            margin-bottom: 36px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        form {
+            display: grid;
+            gap: 24px;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .file-picker-label {
+            display: block;
+            padding: 36px 20px;
+            border: 2px solid #c91818;
+            border-style: dashed;
+            text-align: center;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #c91818;
+            background: #1a0f2e;
+            transition: background 0.3s, color 0.3s;
+            letter-spacing: 0.5px;
+        }
+
+        .file-picker-label:hover {
+            background: #3d2760;
+            color: #ff3737;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .upload-btn {
+            background: linear-gradient(135deg,  red, #b50000da);
+            color: #f5f0e8;
+            border: none;
+            padding: 16px 28px;
+            font-size: 1rem;
+            font-family: 'Georgia', serif;
+            font-weight: 600;
+            cursor: pointer;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .upload-btn:hover {
+            background: linear-gradient(135deg, rgb(176, 0, 0), #5e0000da);
+            transform: translateY(-1px);
+        }
+
+        .footer-text {
+            font-size: 0.85rem;
+            color: #9d7bb4;
+            margin-top: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 480px) {
+            .content {
+                padding: 36px 24px;
+            }
+
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            .file-picker-label {
+                padding: 28px 16px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Upload File</h1>
-    <form action="/upload" method="post" enctype="multipart/form-data">
-        <input type="file" name="file">
-        <input type="submit" value="Upload">
-    </form>
+    <div class="container">
+        <div class="accent-line"></div>
+        <div class="content">
+            <h1>Upload</h1>
+            <div class="subtitle">File Flow</div>
+            
+            <form action="/upload" method="post" enctype="multipart/form-data">
+                <div class="file-input-wrapper">
+                    <label class="file-picker-label" for="file">+ Choose File</label>
+                    <input type="file" name="file" id="file">
+                </div>
+                <button type="submit" class="upload-btn">Send</button>
+                
+            </form>
+        </div>
+    </div>
 </body>
 </html>

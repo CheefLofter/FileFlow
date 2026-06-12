@@ -1,51 +1,83 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receive File</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: #1a0f2e;
+            color: #f5f0e8;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, red, #b50000da);
+            color: #f5f0e8;
+            border: none;
+            padding: 18px 32px;
+            font-size: 1.1rem;
+            font-family: 'Georgia', serif;
+            font-weight: 500;
+            cursor: pointer;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .download-btn:hover {
+            background: linear-gradient(135deg, #ff5a8a, #c9184a);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
 <body>
-  <button onclick="decrypt()">Download File</button>
+    <button class="download-btn" onclick="decrypt()">Download</button>
 
-  <script>
-    const blob_b64 = "{{ blob_b64 }}";
-    const filename  = "{{ filename }}";
+    <script>
+        const blob_b64 = "{{ blob_b64 }}";
+        const filename  = "{{ filename }}";
 
-    async function decrypt() {
-      // Get key from URL fragment
-      const key_b64 = window.location.hash.substring(1).split("key=")[1];
-      
-     // Decode base64url key → raw bytes
-      const key_bytes = Uint8Array.from(
-        atob(key_b64.replace(/-/g, '+').replace(/_/g, '/')),
-        c => c.charCodeAt(0)
-      );
-     
+        async function decrypt() {
+            const key_b64 = window.location.hash.substring(1).split("key=")[1];
+            const key_bytes = Uint8Array.from(
+                atob(key_b64.replace(/-/g, '+').replace(/_/g, '/')),
+                c => c.charCodeAt(0)
+            );
 
-      // Import key for AES-GCM
-      const key = await crypto.subtle.importKey(
-        "raw", key_bytes,
-        { name: "AES-GCM" },
-        false,
-        ["decrypt"]
-      );
+            const key = await crypto.subtle.importKey(
+                "raw", key_bytes,
+                { name: "AES-GCM" },
+                false,
+                ["decrypt"]
+            );
 
-      // Decode blob
-      const blob_bytes = Uint8Array.from(atob(blob_b64), c => c.charCodeAt(0));
+            const blob_bytes = Uint8Array.from(atob(blob_b64), c => c.charCodeAt(0));
+            const iv = blob_bytes.slice(0, 12);
+            const ciphertext = blob_bytes.slice(12);
 
-      // Split IV (first 12 bytes) + ciphertext (rest) — mirrors: blob = iv + ciphertext
-      const iv         = blob_bytes.slice(0, 12);
-      const ciphertext = blob_bytes.slice(12);
+            const decrypted = await crypto.subtle.decrypt(
+                { name: "AES-GCM", iv: iv },
+                key,
+                ciphertext
+            );
 
-      // Decrypt
-      const decrypted = await crypto.subtle.decrypt(
-        { name: "AES-GCM", iv: iv },
-        key,
-        ciphertext
-      );
-
-      // Trigger download
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(new Blob([decrypted]));
-      a.download = filename;
-      a.click();
-    }
-  </script>
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(new Blob([decrypted]));
+            a.download = filename;
+            a.click();
+        }
+    </script>
 </body>
 </html>
