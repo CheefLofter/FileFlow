@@ -29,3 +29,8 @@ the decryption is done on client side in the browser by extracting key from frag
 ![Block Diagram](Assets/block-diagram.png)
 
 </div>
+
+## working
+
+fileflow uses a flask server on local host and exposes the port 5000 to the internet using clowdflare tunnel
+
